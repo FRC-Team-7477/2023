@@ -63,12 +63,14 @@ public class Robot extends TimedRobot {
       System.out.println("Arcade driver connected");
       double arcadeSpeed = Util.deadband(arcadeDriver.getLeftY());
       double arcadeTurn = Util.deadband(arcadeDriver.getRightX());
+      if (arcadeDriver.getRightBumperPressed()) driveTrain.shiftGear();
 
       driveTrain.arcadeDrive(arcadeSpeed, arcadeTurn);
     } else if (tankDriver.isConnected()) {
       System.out.println("Tank driver connected");
       double tankLeftY = Util.deadband(tankDriver.getLeftY());
       double tankRightY = Util.deadband(tankDriver.getRightY());
+      if (tankDriver.getRightBumperPressed()) driveTrain.shiftGear();
 
       driveTrain.tankDrive(tankLeftY, tankRightY);
     }

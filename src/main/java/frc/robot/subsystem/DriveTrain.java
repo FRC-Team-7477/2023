@@ -12,11 +12,26 @@ public class DriveTrain {
 
     private final DoubleSolenoid leftGearBox = Util.getSolenoid("leftGearBox");
     private final DoubleSolenoid rightGearBox = Util.getSolenoid("rightGearBox");
-    private boolean isHighGear = true;
+    private int timeSpentDrivingForwards = 0;
+    private boolean isHighGear = false;
 
     public DriveTrain() {
         frontLeft.setInverted(true);
         backLeft.setInverted(true);
+    }
+
+    private void detectIfToSwitchGears() {
+        if (frontLeft.get() > 0.1 || frontRight.get() > 0.1 || backLeft.get() > 0.1 || backRight.get() > 0.1) {
+            timeSpentDrivingForwards++;
+        } else {
+            timeSpentDrivingForwards = 0;
+        }
+
+        if (timeSpentDrivingForwards > 50 && !isHighGear) {
+            shiftGear("HIGH");
+        } else if (timeSpentDrivingForwards < 50 && isHighGear) {
+            shiftGear("LOW");
+        }
     }
 
     public void arcadeDrive(double speed, double turn) {
@@ -24,6 +39,7 @@ public class DriveTrain {
         frontRight.set(speed - turn);
         backLeft.set(speed + turn);
         backRight.set(speed - turn);
+        detectIfToSwitchGears();
     }
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
@@ -31,17 +47,23 @@ public class DriveTrain {
         frontRight.set(rightSpeed);
         backLeft.set(leftSpeed);
         backRight.set(rightSpeed);
+        detectIfToSwitchGears();
     }
 
     public void shiftGear() {
+        shiftGear(isHighGear? "LOW" : "HIGH");
+    }
+
+    public void shiftGear(String gear) {
         System.out.println("Gear: " + (isHighGear? "High" : "Low"));
-        if (isHighGear) {
+        if (gear.equals("HIGH")) {
             leftGearBox.set(DoubleSolenoid.Value.kReverse);
             rightGearBox.set(DoubleSolenoid.Value.kReverse);
-        } else {
+            isHighGear = true;
+        } else if (gear.equals("LOW")) {
             leftGearBox.set(DoubleSolenoid.Value.kForward);
             rightGearBox.set(DoubleSolenoid.Value.kForward);
+            isHighGear = false;
         }
-        isHighGear = !isHighGear;
     }
 }
