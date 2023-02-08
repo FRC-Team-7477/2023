@@ -5,18 +5,15 @@ import com.revrobotics.CANSparkMax;
 
 public class Lifter {
     private final CANSparkMax lifterMotor = Util.getMotor("lifterMotor");
-    private boolean isPositional = false;
+    public int currentStage = 0;
 
     public Lifter() {
         lifterMotor.getEncoder().setPosition(0);
     }
 
     public void lift(double speed) {
-        if (isPositional) liftPositional(speed);
-        else {
-            if (speed > 0) lifterMotor.set(speed);
-            else stop();
-        }
+        if (speed > 0) lifterMotor.set(speed);
+        else stop();
     }
 
     public void stop() {
@@ -31,21 +28,11 @@ public class Lifter {
     public double getPosition() {
         return lifterMotor.getEncoder().getPosition();
     }
-
-    public void liftPositional(double position) {
-        double closest = (double) Util.getClosestLifterEncoderPosition(position);
-        setPosition(closest);
-    }
     
-    public void switchMode() {
-        isPositional = !isPositional;
-
-        if (isPositional) {
-            System.out.println("Lifter mode: Positional");
-            stop();
-            liftPositional(getPosition());
-        } else {
-            System.out.println("Lifter mode: Continuous");
-        }
+    public void switchPosition(int additive) {
+        currentStage += additive;
+        if (currentStage < 0) currentStage = 0;
+        else if (currentStage > Util.LifterEncoderPositions.size() - 1) currentStage = Util.LifterEncoderPositions.size() - 1;
+        setPosition(Util.LifterEncoderPositions.get(currentStage));
     }
 }

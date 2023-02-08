@@ -15,7 +15,8 @@ public class Util {
         "frontRight", 2,
         "backLeft", 3,
         "backRight", 4,
-        "lifterMotor", 5
+        "lifterMotor", 5,
+        "clawMotor", 6
     );
 
     public static CANSparkMax getMotor(String portName) {
@@ -62,10 +63,17 @@ public class Util {
     }
 
 
+    public static final Map<Boolean, Integer> ClawEncoderPositions = Map.of(
+        false, 0,
+        true, 100
+    );
+
+
     public static final Map<Number, Integer> LifterEncoderPositions = Map.of(
         0, 0,
-        0.5, 50,
-        1, 100
+        1, 50,
+        2, 100,
+        3, 150
     );
 
     public static double getClosestLifterEncoderPosition(double position) {

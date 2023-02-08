@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import frc.robot.Util;
 import frc.robot.subsystem.*;
 
 
@@ -76,7 +75,8 @@ public class Robot extends TimedRobot {
     }
 
     if (!operator.isConnected()) System.out.println("Operator not connected");
-    if (operator.getAButton()) lifter.switchMode();
+    if (operator.getYButton()) lifter.switchPosition(1);
+    if (operator.getAButton()) lifter.switchPosition(-1);
     double operatorLeftY = Util.deadband(operator.getLeftY());
     lifter.lift(operatorLeftY);
   }
