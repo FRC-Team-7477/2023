@@ -3,6 +3,7 @@ package frc.robot;
 import java.util.Map;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -20,13 +21,21 @@ public class Util {
     );
 
     public static CANSparkMax getMotor(String portName) {
-        return getMotor(portName, true);
+        return getMotor(portName, true, false);
     }
 
     public static CANSparkMax getMotor(String portName, Boolean isBrushless) {
+        return getMotor(portName, isBrushless, false);
+    }
+
+    public static CANSparkMax getMotor(String portName, Boolean isBrushless, Boolean isOnCoastMode) {
         int portNumber = Motors.get(portName);
         MotorType motorType = isBrushless? MotorType.kBrushless : MotorType.kBrushed;
-        return new CANSparkMax(portNumber, motorType);
+        IdleMode idleMode = isOnCoastMode? IdleMode.kCoast : IdleMode.kBrake;
+
+        CANSparkMax motor = new CANSparkMax(portNumber, motorType);
+        motor.setIdleMode(idleMode);
+        return motor;
     }
 
 
