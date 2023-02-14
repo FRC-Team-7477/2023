@@ -6,8 +6,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+// import edu.wpi.first.wpilibj.DoubleSolenoid;
+// import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class Util {
@@ -51,15 +51,15 @@ public class Util {
     }
 
 
-    public static final Map<String, Integer[]> Solenoids = Map.of(
-        "leftGearBox", new Integer[] {0, 1},
-        "rightGearBox", new Integer[] {2, 3}
-    );
+    // public static final Map<String, Integer[]> Solenoids = Map.of(
+    //     "leftGearBox", new Integer[] {0, 1},
+    //     "rightGearBox", new Integer[] {2, 3}
+    // );
 
-    public static DoubleSolenoid getSolenoid(String channelName) {
-        Integer[] ports = Solenoids.get(channelName);
-        return new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ports[0], ports[1]);
-    }
+    // public static DoubleSolenoid getSolenoid(String channelName) {
+    //     Integer[] ports = Solenoids.get(channelName);
+    //     return new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ports[0], ports[1]);
+    // }
 
 
     public static double deadband(double value) {
