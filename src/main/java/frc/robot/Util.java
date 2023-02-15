@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class Util {
     public static final Map<String, Integer> Motors = Map.of(
-        "frontLeft", 5,
-        "frontRight", 1,
-        "backLeft", 3,
-        "backRight", 6,
-        "lifterMotor", 51,
-        "clawMotor", 61
+        "frontLeft", 1,
+        "frontRight", 4,
+        "backLeft", 2,
+        "backRight", 3,
+        "lifterMotor", null,
+        "clawMotor", null
     );
 
     public static CANSparkMax getMotor(String portName) {
