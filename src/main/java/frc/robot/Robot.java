@@ -17,13 +17,13 @@ public class Robot extends TimedRobot {
 
 	public AutoChooser chooser;
 	public DriveTrain driveTrain;
-	public Lifter lifter;
+	// public Lifter lifter;
 
 	@Override
 	public void robotInit() {
 		chooser = new AutoChooser();
 		driveTrain = new DriveTrain();
-		lifter = new Lifter();
+		// lifter = new Lifter();
 	}
 
 	@Override
@@ -64,16 +64,16 @@ public class Robot extends TimedRobot {
 		}
 
 		if (!operator.isConnected()) System.out.println("Operator not connected");
-		if (operator.getYButton()) lifter.switchPosition(1);
-		if (operator.getAButton()) lifter.switchPosition(-1);
-		double operatorLeftY = operator.getLeftY();
-		lifter.lift(operatorLeftY);
+		// if (operator.getYButton()) lifter.switchPosition(1);
+		// if (operator.getAButton()) lifter.switchPosition(-1);
+		// double operatorLeftY = operator.getLeftY();
+		// lifter.lift(operatorLeftY);
 	}
 
 	@Override
 	public void disabledInit() {
 		driveTrain.stop();
-		lifter.stop();
+		// lifter.stop();
 	}
 
 	@Override
