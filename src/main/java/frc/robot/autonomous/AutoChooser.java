@@ -10,10 +10,16 @@ interface TemplateAuto {
 	public void run();
 }
 
-public class Chooser {
+/**
+ * This class is used to choose the autonomous mode.
+ */
+public class AutoChooser {
 	public final SendableChooser<String> sendableChooser = new SendableChooser<>();
 	public TemplateAuto autoClass;
 
+	/**
+	 * This map is used to store the names of the autonomous modes and their class names.
+	 */
 	public static final Map<String, String> Autos = Map.of(
 		"Do Nothing", "DoNothing",
 		"Middle Auto", "Middle",
@@ -21,7 +27,10 @@ public class Chooser {
 		"Right Auto", "Right"
 	);
 
-	public Chooser() {
+	/**
+	 * This constructor adds all the autonomous modes to the SmartDashboard.
+	 */
+	public AutoChooser() {
 		String doNothing = Autos.get("Do Nothing");
 		sendableChooser.setDefaultOption("Default Option (Do Nothing)", doNothing);
 
@@ -32,6 +41,10 @@ public class Chooser {
 		SmartDashboard.putData("Auto choices", sendableChooser);
 	}
 
+	/**
+	 * This method is used to choose the autonomous mode.
+	 * @param robot The robot class.
+	 */
 	public void solveSelection(Robot robot) {
 		String selectedAuto = sendableChooser.getSelected();
 		System.out.println("Auto selected: " + selectedAuto);
@@ -53,6 +66,9 @@ public class Chooser {
 		}
 	}
 
+	/**
+	 * This method is used to run the selected autonomous mode.
+	 */
 	public void run() {
 		autoClass.run();
 	}

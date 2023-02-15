@@ -1,27 +1,29 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.autonomous.Chooser;
+import frc.robot.autonomous.AutoChooser;
 // import edu.wpi.first.wpilibj.Compressor;
 // import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.subsystem.*;
+import frc.robot.util.*;
 
 
 public class Robot extends TimedRobot {
 	// private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
-	private final XboxController arcadeDriver = new XboxController(Util.Controllers.get("driver_arcade"));
-	private final XboxController tankDriver = new XboxController(Util.Controllers.get("driver_tank"));
-	private final XboxController operator = new XboxController(Util.Controllers.get("operator"));
+	public final Controller arcadeDriver = new Controller("driver_arcade");
+	public final Controller tankDriver = new Controller("driver_tank");
+	public final Controller operator = new Controller("operator");
 
-	public Chooser chooser;
-	public final DriveTrain driveTrain = new DriveTrain();
-	public final Lifter lifter = new Lifter();
+	public AutoChooser chooser;
+	public DriveTrain driveTrain;
+	public Lifter lifter;
 
 	@Override
 	public void robotInit() {
-		chooser = new Chooser();
+		chooser = new AutoChooser();
+		driveTrain = new DriveTrain();
+		lifter = new Lifter();
 	}
 
 	@Override
@@ -47,15 +49,15 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		if (arcadeDriver.isConnected()) {
 		System.out.println("Arcade driver connected");
-		double arcadeSpeed = Util.deadband(arcadeDriver.getLeftY());
-		double arcadeTurn = Util.deadband(arcadeDriver.getRightX());
+		double arcadeSpeed = arcadeDriver.getLeftY();
+		double arcadeTurn = arcadeDriver.getRightX();
 		// if (arcadeDriver.getRightBumperPressed()) driveTrain.shiftGear();
 
 		driveTrain.arcadeDrive(arcadeSpeed, arcadeTurn);
 		} else if (tankDriver.isConnected()) {
 		System.out.println("Tank driver connected");
-		double tankLeftY = Util.deadband(tankDriver.getLeftY());
-		double tankRightY = Util.deadband(tankDriver.getRightY());
+		double tankLeftY = tankDriver.getLeftY();
+		double tankRightY = tankDriver.getRightY();
 		// if (tankDriver.getRightBumperPressed()) driveTrain.shiftGear();
 
 		driveTrain.tankDrive(tankLeftY, tankRightY);
@@ -64,7 +66,7 @@ public class Robot extends TimedRobot {
 		if (!operator.isConnected()) System.out.println("Operator not connected");
 		if (operator.getYButton()) lifter.switchPosition(1);
 		if (operator.getAButton()) lifter.switchPosition(-1);
-		double operatorLeftY = Util.deadband(operator.getLeftY());
+		double operatorLeftY = operator.getLeftY();
 		lifter.lift(operatorLeftY);
 	}
 

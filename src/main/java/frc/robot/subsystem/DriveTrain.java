@@ -1,21 +1,32 @@
 package frc.robot.subsystem;
 
-import frc.robot.Util;
+import frc.robot.util.*;
 import com.revrobotics.CANSparkMax;
 // import edu.wpi.first.wpilibj.DoubleSolenoid;
 
+/**
+ * This class is used to control the drivetrain.
+ */
 public class DriveTrain {
-	private final CANSparkMax frontLeft = Util.getMotor("frontLeft");
-	private final CANSparkMax frontRight = Util.getMotor("frontRight");
-	private final CANSparkMax backLeft = Util.getMotor("backLeft");
-	private final CANSparkMax backRight = Util.getMotor("backRight");
+	private CANSparkMax frontLeft;
+	private CANSparkMax frontRight;
+	private CANSparkMax backLeft;
+	private CANSparkMax backRight;
 
 	// private final DoubleSolenoid leftGearBox = Util.getSolenoid("leftGearBox");
 	// private final DoubleSolenoid rightGearBox = Util.getSolenoid("rightGearBox");
 	// private int timeSpentDrivingForwards = 0;
 	// private boolean isHighGear = false;
 
+	/**
+	 * This constructor initializes the motors.
+	 */
 	public DriveTrain() {
+		frontLeft = new Motor("frontLeft");
+		frontRight = new Motor("frontRight");
+		backLeft = new Motor("backLeft");
+		backRight = new Motor("backRight");
+
 		frontLeft.setInverted(true);
 		backLeft.setInverted(true);
 	}
@@ -34,6 +45,12 @@ public class DriveTrain {
 	//     }
 	// }
 
+	/**
+	 * This method implements the arcade drive.
+	 *
+	 * @param speed The speed of the robot.
+	 * @param turn The turning speed of the robot.
+	 */
 	public void arcadeDrive(double speed, double turn) {
 		frontLeft.set(speed + turn);
 		frontRight.set(speed - turn);
@@ -42,6 +59,12 @@ public class DriveTrain {
 		// detectIfToSwitchGears();
 	}
 
+	/**
+	 * This method implements the tank drive.
+	 *
+	 * @param leftSpeed The speed of the left side of the robot.
+	 * @param rightSpeed The speed of the right side of the robot.
+	 */
 	public void tankDrive(double leftSpeed, double rightSpeed) {
 		frontLeft.set(leftSpeed);
 		frontRight.set(rightSpeed);
@@ -51,6 +74,13 @@ public class DriveTrain {
 	}
 
 	// might not work
+	/**
+	 * This method moves the robot to a specific location.
+	 *
+	 * @param inches The distance to move in the x direction.
+	 * @param turn The distance to move in the y direction.
+	 * @param speed The speed to move at.
+	 */
 	public void move(double inches, double turn, double speed) {
 		double distance = Math.sqrt(Math.pow(inches, 2) + Math.pow(turn, 2));
 		double angle = Math.atan2(inches, turn);
@@ -95,6 +125,9 @@ public class DriveTrain {
 	//     }
 	// }
 
+	/**
+	 * This method stops the robot.
+	 */
 	public void stop() {
 		tankDrive(0, 0);
 	}
