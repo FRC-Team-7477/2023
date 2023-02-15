@@ -50,6 +50,34 @@ public class DriveTrain {
 		// detectIfToSwitchGears();
 	}
 
+	// might not work
+	public void move(double inches, double turn, double speed) {
+		double distance = Math.sqrt(Math.pow(inches, 2) + Math.pow(turn, 2));
+		double angle = Math.atan2(inches, turn);
+		double robotAngle = Math.atan2(frontLeft.get(), frontRight.get());
+		double relativeAngle = angle - robotAngle;
+		double relativeDistance = Math.sqrt(Math.pow(distance * Math.cos(relativeAngle), 2) + Math.pow(distance * Math.sin(relativeAngle), 2));
+
+		arcadeDrive(0, 0.5);
+		while (Math.abs(relativeAngle) > 0.1) {
+			robotAngle = Math.atan2(frontLeft.get(), frontRight.get());
+			relativeAngle = angle - robotAngle;
+			arcadeDrive(0, 0.5);
+		}
+
+		arcadeDrive(0.5, 0);
+		while (relativeDistance > 0.1) {
+			distance = Math.sqrt(Math.pow(inches, 2) + Math.pow(turn, 2));
+			angle = Math.atan2(inches, turn);
+			robotAngle = Math.atan2(frontLeft.get(), frontRight.get());
+			relativeAngle = angle - robotAngle;
+			relativeDistance = Math.sqrt(Math.pow(distance * Math.cos(relativeAngle), 2) + Math.pow(distance * Math.sin(relativeAngle), 2));
+			arcadeDrive(0.5, 0);
+		}
+
+		stop();
+	}
+
 	// public void shiftGear() {
 	//     shiftGear(isHighGear? "LOW" : "HIGH");
 	// }
