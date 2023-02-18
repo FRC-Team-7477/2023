@@ -15,8 +15,7 @@ public class Motor extends CANSparkMax {
         "frontRight", 4,
         "backLeft", 2,
         "backRight", 3,
-        "lifterMotor", null,
-        "grabberMotor", null
+        "lifterMotor", 10
     );
 
     /**

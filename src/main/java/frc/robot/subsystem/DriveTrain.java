@@ -27,7 +27,7 @@ public class DriveTrain {
 		backLeft = new Motor("backLeft");
 		backRight = new Motor("backRight");
 
-		frontLeft.setInverted(true);
+		frontRight.setInverted(true);
 		backLeft.setInverted(true);
 	}
 

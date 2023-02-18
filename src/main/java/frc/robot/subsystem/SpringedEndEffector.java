@@ -1,18 +1,18 @@
 package frc.robot.subsystem;
 
-import frc.robot.util.*;
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 /**
  * This class is used to control the end effector.
  */
 public class SpringedEndEffector {
-    private final CANSparkMax grabber = new Motor("grabberMotor", true);
+    private WPI_VictorSPX grabber;
 
     /**
      * This constructor initializes the grabber.
      */
     public SpringedEndEffector() {
+        grabber = new WPI_VictorSPX(0);
     }
 
     /**
