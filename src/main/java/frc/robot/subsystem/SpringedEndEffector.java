@@ -1,18 +1,20 @@
 package frc.robot.subsystem;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import frc.robot.util.Motor;
+import com.revrobotics.CANSparkMax;
 
 /**
  * This class is used to control the end effector.
  */
 public class SpringedEndEffector {
-    private WPI_VictorSPX grabber;
+    private final CANSparkMax grabber = new Motor("grabberMotor", true);
+    private final double maxPosition = 1000;
 
     /**
      * This constructor initializes the grabber.
      */
     public SpringedEndEffector() {
-        grabber = new WPI_VictorSPX(0);
+        setPosition(0);
     }
 
     /**
@@ -21,7 +23,7 @@ public class SpringedEndEffector {
      * @param speed The speed of the grabber.
      */
     public void open(double speed) {
-        if (speed > 0) grabber.set(speed);
+        if (speed > 0 && getPosition() < maxPosition) grabber.set(speed);
         else stop();
     }
 
@@ -30,5 +32,23 @@ public class SpringedEndEffector {
      */
     public void stop() {
         grabber.set(0);
+    }
+
+    /**
+     * This method sets the position of the grabber.
+     *
+     * @param position The position of the grabber.
+     */
+    public void setPosition(double position) {
+        grabber.getEncoder().setPosition(position);
+    }
+
+    /**
+     * This method gets the position of the grabber.
+     *
+     * @return The position of the grabber.
+     */
+    public double getPosition() {
+        return grabber.getEncoder().getPosition();
     }
 }

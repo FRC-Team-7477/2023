@@ -15,7 +15,8 @@ public class Motor extends CANSparkMax {
         "frontRight", 4,
         "backLeft", 2,
         "backRight", 3,
-        "lifterMotor", 10
+        "lifterMotor", 5,
+        "grabberMotor", 6
     );
 
     /**
@@ -34,7 +35,7 @@ public class Motor extends CANSparkMax {
      * @param isOnCoastMode Whether the motor is on coast mode.
      */
     public Motor(String portName, Boolean isOnCoastMode) {
-        this(portName, false, isOnCoastMode);
+        this(portName, true, isOnCoastMode);
     }
 
     /**

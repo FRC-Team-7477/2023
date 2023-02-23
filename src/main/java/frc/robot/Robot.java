@@ -5,7 +5,7 @@ import frc.robot.autonomous.AutoChooser;
 // import edu.wpi.first.wpilibj.Compressor;
 // import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import frc.robot.subsystem.*;
-import frc.robot.util.*;
+import frc.robot.util.Controller;
 
 
 public class Robot extends TimedRobot {
@@ -50,34 +50,33 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		if (arcadeDriver.isConnected()) {
-		System.out.println("Arcade driver connected");
-		double arcadeSpeed = arcadeDriver.getLeftY();
-		double arcadeTurn = arcadeDriver.getRightX();
-		// if (arcadeDriver.getRightBumperPressed()) driveTrain.shiftGear();
+			System.out.println("Arcade driver connected");
+			double arcadeSpeed = arcadeDriver.getLeftY();
+			double arcadeTurn = arcadeDriver.getRightX();
+			// if (arcadeDriver.getRightBumperPressed()) driveTrain.shiftGear();
 
-		driveTrain.arcadeDrive(arcadeSpeed, arcadeTurn);
+			driveTrain.arcadeDrive(arcadeSpeed, arcadeTurn);
 		} else if (tankDriver.isConnected()) {
-		System.out.println("Tank driver connected");
-		double tankLeftY = tankDriver.getLeftY();
-		double tankRightY = tankDriver.getRightY();
-		// if (tankDriver.getRightBumperPressed()) driveTrain.shiftGear();
+			System.out.println("Tank driver connected");
+			double tankLeftY = tankDriver.getLeftY();
+			double tankRightY = tankDriver.getRightY();
+			// if (tankDriver.getRightBumperPressed()) driveTrain.shiftGear();
 
-		driveTrain.tankDrive(tankLeftY, tankRightY);
+			driveTrain.tankDrive(tankLeftY, tankRightY);
 		}
 
 		if (!operator.isConnected()) System.out.println("Operator not connected");
-		// if (operator.getYButton()) lifter.switchPosition(1);
-		// if (operator.getAButton()) lifter.switchPosition(-1);
 		double operatorLeftY = operator.getLeftY();
 		lifter.lift(operatorLeftY);
 		double operatorRightY = operator.getRightY();
-		endEffector.open(operatorRightY / 2);
+		endEffector.open(operatorRightY / 10);
 	}
 
 	@Override
 	public void disabledInit() {
 		driveTrain.stop();
-		// lifter.stop();
+		lifter.lifter.set(0);
+		endEffector.stop();
 	}
 
 	@Override

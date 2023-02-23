@@ -1,31 +1,20 @@
 package frc.robot.subsystem;
 
-import java.util.Map;
-import frc.robot.util.*;
+import frc.robot.util.Motor;
 import com.revrobotics.CANSparkMax;
 
 /**
  * This class is used to control the lifter.
  */
 public class Lifter {
-	private final CANSparkMax lifter = new Motor("lifterMotor");
-	public int currentStage = 0;
-
-	/**
-	 * This map is used to map the positions of the lifter.
-	 */
-	public static final Map<Number, Integer> positions = Map.of(
-		0, 0,
-		1, 50,
-		2, 100,
-		3, 150
-	);
+	public final CANSparkMax lifter = new Motor("lifterMotor", true);
+	private final double maxPosition = 1000;
 
 	/**
 	 * This constructor initializes the lifter.
 	 */
 	public Lifter() {
-		lifter.getEncoder().setPosition(0);
+		setPosition(0);
 	}
 
 	/**
@@ -33,7 +22,7 @@ public class Lifter {
 	 * @param speed The speed of the lifter.
 	 */
 	public void lift(double speed) {
-		if (speed > 0) lifter.set(speed);
+		if (speed > 0 && getPosition() < maxPosition) lifter.set(speed);
 		else stop();
 	}
 
@@ -61,17 +50,5 @@ public class Lifter {
 	 */
 	public double getPosition() {
 		return lifter.getEncoder().getPosition();
-	}
-
-	/**
-	 * This method switches the position of the lifter.
-	 *
-	 * @param additive The additive of the position.
-	 */
-	public void switchPosition(int additive) {
-		currentStage += additive;
-		if (currentStage < 0) currentStage = 0;
-		else if (currentStage > positions.size() - 1) currentStage = positions.size() - 1;
-		setPosition(positions.get(currentStage));
 	}
 }

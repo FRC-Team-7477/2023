@@ -1,6 +1,6 @@
 package frc.robot.subsystem;
 
-import frc.robot.util.*;
+import frc.robot.util.Motor;
 import com.revrobotics.CANSparkMax;
 // import edu.wpi.first.wpilibj.DoubleSolenoid;
 
@@ -27,7 +27,7 @@ public class DriveTrain {
 		backLeft = new Motor("backLeft");
 		backRight = new Motor("backRight");
 
-		frontRight.setInverted(true);
+		frontLeft.setInverted(true);
 		backLeft.setInverted(true);
 	}
 
