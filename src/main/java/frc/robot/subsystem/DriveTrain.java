@@ -1,17 +1,22 @@
 package frc.robot.subsystem;
 
 import frc.robot.util.Motor;
-import com.revrobotics.CANSparkMax;
 // import edu.wpi.first.wpilibj.DoubleSolenoid;
+
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 /**
  * This class is used to control the drivetrain.
  */
-public class DriveTrain {
-	private CANSparkMax frontLeft;
-	private CANSparkMax frontRight;
-	private CANSparkMax backLeft;
-	private CANSparkMax backRight;
+public class DriveTrain extends DifferentialDrive {
+	private static final Motor frontLeft = new Motor("frontLeft");
+	private static final Motor frontRight = new Motor("frontRight");
+	private static final Motor backLeft = new Motor("backLeft");
+	private static final Motor backRight = new Motor("backRight");
+
+	private static final MotorControllerGroup left = new MotorControllerGroup(frontLeft, backLeft);
+	private static final MotorControllerGroup right = new MotorControllerGroup(frontRight, backRight);
 
 	// private final DoubleSolenoid leftGearBox = Util.getSolenoid("leftGearBox");
 	// private final DoubleSolenoid rightGearBox = Util.getSolenoid("rightGearBox");
@@ -22,13 +27,19 @@ public class DriveTrain {
 	 * This constructor initializes the motors.
 	 */
 	public DriveTrain() {
-		frontLeft = new Motor("frontLeft");
-		frontRight = new Motor("frontRight");
-		backLeft = new Motor("backLeft");
-		backRight = new Motor("backRight");
+		super(left, right);
 
-		frontLeft.setInverted(true);
-		backLeft.setInverted(true);
+		left.setInverted(true);
+
+		frontLeft.setOpenLoopRampRate(3);
+		frontRight.setOpenLoopRampRate(3);
+		backLeft.setOpenLoopRampRate(3);
+		backRight.setOpenLoopRampRate(3);
+
+		frontLeft.setClosedLoopRampRate(1);
+		frontRight.setClosedLoopRampRate(1);
+		backLeft.setClosedLoopRampRate(1);
+		backRight.setClosedLoopRampRate(1);
 	}
 
 	// private void detectIfToSwitchGears() {
@@ -45,33 +56,27 @@ public class DriveTrain {
 	//     }
 	// }
 
-	/**
-	 * This method implements the arcade drive.
-	 *
-	 * @param speed The speed of the robot.
-	 * @param turn The turning speed of the robot.
-	 */
-	public void arcadeDrive(double speed, double turn) {
-		frontLeft.set(speed + turn);
-		frontRight.set(speed - turn);
-		backLeft.set(speed + turn);
-		backRight.set(speed - turn);
-		// detectIfToSwitchGears();
-	}
+	// /**
+	//  * This method implements the arcade drive.
+	//  *
+	//  * @param speed The speed of the robot.
+	//  * @param turn The turning speed of the robot.
+	//  */
+	// public void arcadeDrive(double speed, double turn) {
+	// 	super.arcadeDrive(speed, turn);
+	// 	detectIfToSwitchGears();
+	// }
 
-	/**
-	 * This method implements the tank drive.
-	 *
-	 * @param leftSpeed The speed of the left side of the robot.
-	 * @param rightSpeed The speed of the right side of the robot.
-	 */
-	public void tankDrive(double leftSpeed, double rightSpeed) {
-		frontLeft.set(leftSpeed);
-		frontRight.set(rightSpeed);
-		backLeft.set(leftSpeed);
-		backRight.set(rightSpeed);
-		// detectIfToSwitchGears();
-	}
+	// /**
+	//  * This method implements the tank drive.
+	//  *
+	//  * @param leftSpeed The speed of the left side of the robot.
+	//  * @param rightSpeed The speed of the right side of the robot.
+	//  */
+	// public void tankDrive(double leftSpeed, double rightSpeed) {
+	// 	super.tankDrive(leftSpeed, rightSpeed);
+	// 	detectIfToSwitchGears();
+	// }
 
 	// might not work
 	/**

@@ -25,7 +25,7 @@ public class Motor extends CANSparkMax {
      * @param portName The name of the port.
      */
     public Motor(String portName) {
-        this(portName, false);
+        this(portName, true, true);
     }
 
     /**
@@ -48,5 +48,28 @@ public class Motor extends CANSparkMax {
     public Motor(String portName, Boolean isBrushless, Boolean isOnCoastMode) {
         super(mapping.get(portName), isBrushless? MotorType.kBrushless : MotorType.kBrushed);
         setIdleMode(isOnCoastMode? IdleMode.kCoast : IdleMode.kBrake);
+    }
+
+    /**
+     * Stops the motor.
+     */
+    public void stop() {
+        set(0);
+    }
+
+    /**
+     * Sets the position of the encoder.
+     * 
+     * @param position The position to set the encoder to.
+     */
+    public void setPosition(double position) {
+        getEncoder().setPosition(position);
+    }
+
+    /**
+     * Gets the position of the encoder.
+     */
+    public double getPosition() {
+        return getEncoder().getPosition();
     }
 }

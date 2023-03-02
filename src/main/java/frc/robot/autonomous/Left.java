@@ -10,6 +10,6 @@ public class Left implements TemplateAuto {
 	}
 
 	public void run() {
-		robot.driveTrain.tankDrive(0.5, 0.5);
+		// robot.driveTrain.tankDrive(0.5, 0.5);
 	}
 }

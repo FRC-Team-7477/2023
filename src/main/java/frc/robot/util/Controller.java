@@ -14,7 +14,8 @@ public class Controller extends XboxController {
     public static final Map<String, Integer> ControllerMapping = Map.of(
         "driver_arcade", 0,
         "driver_tank", 1,
-        "operator", 2
+        "operator", 2,
+        "all_purpose", 5
     );
 
     /**
@@ -66,7 +67,7 @@ public class Controller extends XboxController {
      * @return The axis value.
      */
     public double getLeftX() {
-        return deadband(getLeftX());
+        return deadband(super.getLeftX());
     }
 
     /**
@@ -76,7 +77,7 @@ public class Controller extends XboxController {
      * @return The axis value.
      */
     public double getLeftY() {
-        return deadband(getLeftY());
+        return deadband(super.getLeftY());
     }
 
     /**
@@ -86,7 +87,7 @@ public class Controller extends XboxController {
      * @return The axis value.
      */
     public double getRightX() {
-        return deadband(getRightX());
+        return deadband(super.getRightX());
     }
 
     /**
@@ -96,7 +97,7 @@ public class Controller extends XboxController {
      * @return The axis value.
      */
     public double getRightY() {
-        return deadband(getRightY());
+        return deadband(super.getRightY());
     }
 
     /**
@@ -107,7 +108,7 @@ public class Controller extends XboxController {
      * @return The axis value.
      */
     public double getLeftTriggerAxis() {
-        return deadband(getLeftTriggerAxis());
+        return deadband(super.getLeftTriggerAxis());
     }
 
     /**
@@ -118,6 +119,6 @@ public class Controller extends XboxController {
      * @return The axis value.
      */
     public double getRightTriggerAxis() {
-        return deadband(getRightTriggerAxis());
+        return deadband(super.getRightTriggerAxis());
     }
 }

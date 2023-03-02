@@ -1,20 +1,22 @@
 package frc.robot.subsystem;
 
 import frc.robot.util.Motor;
-import com.revrobotics.CANSparkMax;
 
 /**
  * This class is used to control the lifter.
  */
-public class Lifter {
-	public final CANSparkMax lifter = new Motor("lifterMotor", true);
-	private final double maxPosition = 1000;
+public class Lifter extends Motor {
 
 	/**
 	 * This constructor initializes the lifter.
 	 */
 	public Lifter() {
-		setPosition(0);
+		super("lifterMotor");
+
+		setInverted(true);
+		setOpenLoopRampRate(3);
+		setClosedLoopRampRate(3);
+		setIdleMode(IdleMode.kBrake);
 	}
 
 	/**
@@ -22,33 +24,11 @@ public class Lifter {
 	 * @param speed The speed of the lifter.
 	 */
 	public void lift(double speed) {
-		if (speed > 0 && getPosition() < maxPosition) lifter.set(speed);
-		else stop();
+		set(-speed);
 	}
 
-	/**
-	 * This method stops the lifter. This will gently let the lifter down.
-	 */
-	public void stop() {
-		if (getPosition() <= 0) lifter.set(0);
-		else lifter.set(0.1);
-	}
-
-	/**
-	 * This method sets the position of the lifter.
-	 *
-	 * @param position The position of the lifter.
-	 */
-	public void setPosition(double position) {
-		lifter.getEncoder().setPosition(position);
-	}
-
-	/**
-	 * This method gets the position of the lifter.
-	 *
-	 * @return The position of the lifter.
-	 */
-	public double getPosition() {
-		return lifter.getEncoder().getPosition();
-	}
+	// public void stop() {
+	// 	if (getPosition() <= 0) super.stop();
+	// 	else set(0.1);
+	// }
 }
