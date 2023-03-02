@@ -53,15 +53,15 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		if (arcadeDriver.isConnected()) {
 			// System.out.println("Arcade driver connected");
-			double arcadeSpeed = arcadeDriver.getLeftY() * 0.6;
-			double arcadeTurn = arcadeDriver.getRightX() * 0.45;
+			double arcadeSpeed = arcadeDriver.getLeftY() * 0.75;
+			double arcadeTurn = arcadeDriver.getRightX() * 0.5;
 			// if (arcadeDriver.getRightBumperPressed()) driveTrain.shiftGear();
 
 			driveTrain.arcadeDrive(arcadeSpeed, arcadeTurn);
 		} else if (tankDriver.isConnected()) {
 			// System.out.println("Tank driver connected");
-			double tankLeftY = tankDriver.getLeftY() * 0.6;
-			double tankRightY = tankDriver.getRightY() * 0.6;
+			double tankLeftY = tankDriver.getLeftY() * 0.75;
+			double tankRightY = tankDriver.getRightY() * 0.75;
 			// if (tankDriver.getRightBumperPressed()) driveTrain.shiftGear();
 
 			driveTrain.tankDrive(tankLeftY, tankRightY);

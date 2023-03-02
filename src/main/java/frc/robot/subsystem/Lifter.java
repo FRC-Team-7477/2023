@@ -15,7 +15,7 @@ public class Lifter extends Motor {
 
 		setInverted(true);
 		setOpenLoopRampRate(3);
-		setClosedLoopRampRate(3);
+		setClosedLoopRampRate(0.5);
 		setIdleMode(IdleMode.kBrake);
 	}
 
