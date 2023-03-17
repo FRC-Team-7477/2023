@@ -5,17 +5,18 @@ import frc.robot.util.Motor;
 /**
  * This class is used to control the end effector.
  */
-public class SpringedEndEffector extends Motor {
-    public final EndEffectorHolder holder = new EndEffectorHolder();
-
+public class SpringedEndEffector {
+    public final EndEffectorHolder holder;
+    public final Motor motor;
     /**
      * This constructor initializes the grabber.
      */
-    public SpringedEndEffector() {
-        super("grabberMotor");
-        setInverted(true);
-        setOpenLoopRampRate(3);
+    public SpringedEndEffector(EndEffectorHolder holder) {
+        motor = new Motor("grabberMotor");
+        motor.setInverted(true);
+        motor.setOpenLoopRampRate(3);
 
+        this.holder = holder;
         holder.hold();
     }
 
@@ -25,8 +26,8 @@ public class SpringedEndEffector extends Motor {
      * @param grip The speed of the grabber.
      */
     public void open(double grip) {
-        if (grip > 0) set(grip);
-        else stop();
+        motor.set(grip);
+        //else motor.stop();
     }
 
     /**
@@ -34,5 +35,13 @@ public class SpringedEndEffector extends Motor {
      */
     public void release() {
         holder.release();
+    }
+
+    public void stop() {
+        motor.stop();
+    }
+
+    public double getPosition() {
+        return motor.getPosition();
     }
 }

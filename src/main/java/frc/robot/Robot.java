@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.autonomous.AutoChooser;
 // import frc.robot.autonomous.AutoChooser;
 // import edu.wpi.first.wpilibj.Compressor;
 // import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -11,15 +12,15 @@ import frc.robot.util.Controller;
 public class Robot extends TimedRobot {
 	// private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
-	public final Controller allPurpose = new Controller("all_purpose");
-	public final Controller arcadeDriver = new Controller("driver_arcade");
+	//public final Controller allPurpose = new Controller("all_purpose");
+	//public final Controller arcadeDriver = new Controller("driver_arcade");
 	public final Controller tankDriver = new Controller("driver_tank");
 	public final Controller operator = new Controller("operator");
-
-	// public AutoChooser chooser = new AutoChooser();
+	public final EndEffectorHolder effectorHolder = new EndEffectorHolder(0);
+	public AutoChooser chooser = new AutoChooser();
 	public final DriveTrain driveTrain = new DriveTrain();
 	public final Lifter lifter = new Lifter();
-	public final SpringedEndEffector endEffector = new SpringedEndEffector();
+	public final SpringedEndEffector endEffector = new SpringedEndEffector(effectorHolder);
 
 	@Override
 	public void robotInit() {
@@ -32,46 +33,45 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		// SmartDashboard.putNumber("Compressor pressure", compressor.getCurrent());
 		// log the position of the endEffectorHolder, this is accessible from endEffector.holder and will be a double
-		SmartDashboard.putNumber("End Effector Holder Position", endEffector.holder.getPosition());
+		SmartDashboard.putNumber("End Effector Holder Position", endEffector.getPosition());
 	}
 
 	@Override
 	public void autonomousInit() {
-		// chooser.solveSelection(this);
-		// chooser.run();
+		chooser.solveSelection(this);
+		//chooser.run();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		// chooser.run();
+		chooser.run();
+	}
+
+	boolean isTank = false;
+	@Override
+	public void teleopInit() {
+		if (tankDriver.isConnected())
+		{
+			isTank = true;
+		}
 	}
 
 	@Override
-	public void teleopInit() {}
-
-	@Override
 	public void teleopPeriodic() {
-		if (arcadeDriver.isConnected()) {
-			// System.out.println("Arcade driver connected");
-			double arcadeSpeed = arcadeDriver.getLeftY() * 0.75;
-			double arcadeTurn = arcadeDriver.getRightX() * 0.5;
-			// if (arcadeDriver.getRightBumperPressed()) driveTrain.shiftGear();
-
-			driveTrain.arcadeDrive(arcadeSpeed, arcadeTurn);
-		} else if (tankDriver.isConnected()) {
 			// System.out.println("Tank driver connected");
-			double tankLeftY = tankDriver.getLeftY() * 0.75;
-			double tankRightY = tankDriver.getRightY() * 0.75;
+			double tankLeftY = tankDriver.getLeftY()/2;
+			double tankRightY = tankDriver.getRightY()/2;
 			// if (tankDriver.getRightBumperPressed()) driveTrain.shiftGear();
 
 			driveTrain.tankDrive(tankLeftY, tankRightY);
-		}
 
-		if (operator.isConnected()) {
-			double operatorLeftY = operator.getLeftY();
-			lifter.lift(operatorLeftY);
-			double operatorRightY = operator.getRightX();
-			endEffector.open(operatorRightY);
+
+		double operatorLeftY = operator.getLeftY();
+		lifter.lift(operatorLeftY);
+		double operatorRightY = operator.getRightX();
+		endEffector.open(operatorRightY);
+		if (operator.getAButton()){
+			effectorHolder.release();
 		}
 	}
 

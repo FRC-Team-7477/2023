@@ -5,10 +5,10 @@ import frc.robot.Robot;
 import frc.robot.subsystem.Lifter;
 import frc.robot.subsystem.SpringedEndEffector;
 
-public class Middle implements TemplateAuto {
+public class Outer implements TemplateAuto {
 	private Robot robot;
 
-	public Middle(Robot robot) {
+	public Outer(Robot robot) {
 		this.robot = robot;
 	}
 
@@ -16,7 +16,8 @@ public class Middle implements TemplateAuto {
 		final SpringedEndEffector endEffector = new SpringedEndEffector(robot.effectorHolder);
 		final Lifter lifter = new Lifter();
 		// robot.driveTrain.tankDrive(0.5, 0.5);
-		//this is where robot must balance (engage, 12 pts) or dock (8pts)
+		//This is where bot must travel over bump to exit community
+		//"each ROBOT whose BUMPERS have completely left its COMMUNITY at any point during AUTO" (Mobility, 3 pts)
 
 		//gripping cone, raise arm to height (test encoders for distance)
 		//endEffector.open(-.1);
@@ -40,9 +41,8 @@ public class Middle implements TemplateAuto {
 			endEffector.stop();
 		}
 
-		//go back onto the charge station (gyro angle if statement)
-		robot.driveTrain.move(-120, 0, 0.5);
-
+		//travel backward farther distance, 145 in
+		robot.driveTrain.move(-145, 0, 0.5);
 
 	}
 }

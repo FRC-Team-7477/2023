@@ -25,7 +25,7 @@ public class Motor extends CANSparkMax {
      * @param portName The name of the port.
      */
     public Motor(String portName) {
-        this(portName, true, true);
+        this(portName, true, false);
     }
 
     /**

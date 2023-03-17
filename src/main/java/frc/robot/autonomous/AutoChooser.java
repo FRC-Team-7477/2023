@@ -23,8 +23,8 @@ public class AutoChooser {
 	public static final Map<String, String> Autos = Map.of(
 		"Do Nothing", "DoNothing",
 		"Middle Auto", "Middle",
-		"Left Auto", "Left",
-		"Right Auto", "Right"
+		"Inner Auto", "Inner",
+		"Outer Auto", "Outer"
 	);
 
 	/**
@@ -53,11 +53,11 @@ public class AutoChooser {
 			case "Middle":
 				autoClass = new Middle(robot);
 				break;
-			case "Left":
-				autoClass = new Left(robot);
+			case "Inner":
+				autoClass = new Inner(robot);
 				break;
-			case "Right":
-				autoClass = new Right(robot);
+			case "Outer":
+				autoClass = new Outer(robot);
 				break;
 			case "DoNothing":
 			default:

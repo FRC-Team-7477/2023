@@ -31,11 +31,12 @@ public class DriveTrain extends DifferentialDrive {
 
 		left.setInverted(true);
 
-		frontLeft.setOpenLoopRampRate(3);
-		frontRight.setOpenLoopRampRate(3);
-		backLeft.setOpenLoopRampRate(3);
-		backRight.setOpenLoopRampRate(3);
+		frontLeft.setOpenLoopRampRate(0.3);
+		frontRight.setOpenLoopRampRate(0.3);
+		backLeft.setOpenLoopRampRate(0.3);
+		backRight.setOpenLoopRampRate(0.3);
 
+		//frontLeft.setSafetyEnabled(false);
 		frontLeft.setClosedLoopRampRate(1);
 		frontRight.setClosedLoopRampRate(1);
 		backLeft.setClosedLoopRampRate(1);
@@ -89,9 +90,17 @@ public class DriveTrain extends DifferentialDrive {
 	public void move(double inches, double turn, double speed) {
 		double distance = Math.sqrt(Math.pow(inches, 2) + Math.pow(turn, 2));
 		double angle = Math.atan2(inches, turn);
-		double robotAngle = Math.atan2(frontLeft.get(), frontRight.get());
+		double robotAngle = Math.atan2(frontLeft.getPosition(), frontRight.getPosition());
 		double relativeAngle = angle - robotAngle;
 		double relativeDistance = Math.sqrt(Math.pow(distance * Math.cos(relativeAngle), 2) + Math.pow(distance * Math.sin(relativeAngle), 2));
+
+		/*
+		 final double WHEEL_DIAMETER = 6; //in inches
+    	 final double PULSE_PER_REVOLUTION = 360;
+    	 final double GEAR_RATIO = 10.71;
+    	 final double DISTANCE_PER_PULSE = Math.PI * WHEEL_DIAMETER / PULSE_PER_REVOLUTION / GEAR_RATIO; //in inches
+		 //final double ENCODER_PULSE = WANTED_DISTANCE / DISTANCE_PER_PULSE
+		 */
 
 		arcadeDrive(0, 0.5);
 		while (Math.abs(relativeAngle) > 0.1) {
