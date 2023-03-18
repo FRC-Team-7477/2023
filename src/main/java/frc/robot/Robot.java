@@ -39,12 +39,15 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		chooser.solveSelection(this);
-		//chooser.run();
+		chooser.run();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		chooser.run();
+        // You should not be running the autonomous program periodically.
+        // This will cause the autonomous program to run again after completion.
+        // Instead, this should be run in autonomousInit.
+        //chooser.run();
 	}
 
 	boolean isTank = false;
